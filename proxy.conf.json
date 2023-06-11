@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+      "target": "http://eon0.hl1077.dinaserver.com/",
+      "secure": false,
+      "logLevel": "debug"
+    }
+  }
