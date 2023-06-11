@@ -1,0 +1,19 @@
+<div class="card text-white bg-secondary">
+    <div class="card-header">
+        Crear tarea
+    </div>
+    <div class="card-body">
+        <form [formGroup]="form" (ngSubmit)="createTask()">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input class="form-control" type="text" formControlName="title" placeholder="Título" required>
+            </div>
+            <div class="">
+              <label for="descripcion">Descripción:</label>
+              <textarea class="form-control" formControlName="description" placeholder="Descripción"  required></textarea>
+            </div>
+            <br>
+            <button class="btn btn-dark" type="submit" >Crear Tarea</button>
+        </form>
+    </div>
+</div>

@@ -1,33 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/enviroments/enviroment';
 import { Board } from './board';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoardService {
-  private baseUrl = 'http://localhost:8000/api/boards';
+  private apiUrl = environment.apiUrl;
+  private baseUrl = 'boards';
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<Board[]> {
-    return this.http.get<Board[]>(`${this.baseUrl}`);
+    return this.http.get<Board[]>(`${this.apiUrl}/${this.baseUrl}`);
   }
 
   getById(id: number): Observable<Board> {
-    return this.http.get<Board>(`${this.baseUrl}/${id}`);
+    return this.http.get<Board>(`${this.apiUrl}/${this.baseUrl}/${id}`);
   }
 
   create(boardData: Board): Observable<Board> {
-    return this.http.post<Board>(`${this.baseUrl}`, boardData);
+    return this.http.post<Board>(`${this.apiUrl}/${this.baseUrl}`, boardData);
   }
 
   update(id: number, boardData: Board): Observable<Board> {
-    return this.http.put<Board>(`${this.baseUrl}/${id}`, boardData);
+    return this.http.put<Board>(`${this.apiUrl}/${this.baseUrl}/${id}`, boardData);
   }
 
   delete(id: number): Observable<Board> {
-    return this.http.delete<Board>(`${this.baseUrl}/${id}`);
+    return this.http.delete<Board>(`${this.apiUrl}/${this.baseUrl}/${id}`);
   }
 }

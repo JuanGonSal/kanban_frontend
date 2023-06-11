@@ -1,20 +1,25 @@
-<div class="board-name">{{ name }}</div>
-<form class="form-group" action="">
-  <button class="btn">
-    Nueva tarea
-  </button>
-</form>
-<div class="board">
-    <div class="columns">
-      <div class="column" *ngFor="let column of columns" (dragover)="onTaskDragOver($event)" (drop)="onTaskDrop($event, column)">
-        <div class="column-header">{{ column.name }}</div>
-        <div class="column-content">
-          <div class="task" *ngFor="let task of column.tasks" draggable="true" [attr.data-task]="task.id" [attr.data-column]="column.id" (dragstart)="onTaskDragStart($event, task, column)">
-            <div class="task-header">{{ task.title }}</div>
-            <div class="task-content">{{ task.description }}</div>
-          </div>
-        </div>
+<div class="card bg-secondary">
+  <div class="card-header text-white flex-end justify-content-right">
+    <div class="row">
+      <div class="board-name col-10">{{ name }}</div>
+      <div class="col-2">
+        <button class="btn btn-dark" >Nueva tarea</button>
+        <button class="btn btn-dark" >Nueva columna</button>
       </div>
     </div>
   </div>
+  <div class="card-body">
+    <div class="board">
+      <div class="board">
+        <app-column *ngFor="let column of columns" 
+          [column]="column" 
+          (dragover)="onTaskDragOver($event)" 
+          (drop)="onTaskDrop($event, column)"
+        ></app-column>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   

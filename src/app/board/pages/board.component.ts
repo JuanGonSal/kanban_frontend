@@ -3,7 +3,7 @@ import { BoardService } from '../board.service';
 import { ColumnService } from '../../column/column.service';
 import { TaskService } from '../../task/task.service';
 import { Column } from '../../column/column';
-import { Task } from '../../task/task';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -14,27 +14,40 @@ import { Task } from '../../task/task';
 export class BoardComponent implements OnInit {
   columns: Column[] = [];
   name: String = '';
+  id!: number;
 
-  constructor(private boardService: BoardService, private columnService: ColumnService, private taskService: TaskService) { }
+  constructor(
+    private boardService: BoardService, 
+    private columnService: ColumnService, 
+    private taskService: TaskService,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    this.boardService.getById(1).subscribe((board: any) => {
-      this.name = board.name;
+    this.route.paramMap.subscribe(params => {
+      this.id = Number(params.get('id'));
+      this.boardService.getById(this.id).subscribe((board: any) => {
+        this.name = board.name;
+      });
+  
+      this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
+        this.columns = columns;
+        for (const column of columns) {
+          this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
+            column.tasks = tasks;
+          });
+        }
+      });
     });
 
-    this.columnService.getColumnsByBoard(1).subscribe(columns => {
-      this.columns = columns;
-      for (const column of columns) {
-        this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
-          column.tasks = tasks;
-        });
-      }
-    });
   }
 
-  onTaskDragStart(event: DragEvent, task: Task, column: Column): void {
-    event.dataTransfer?.setData('text/plain', task.id.toString());
-    event.dataTransfer?.setData('application/json', column.id.toString());
+  onTaskUpdated(updatedColumn: Column): void {
+    // Actualizar la columna en el arreglo de columnas
+    const columnIndex = this.columns.findIndex(column => column.id === updatedColumn.id);
+    if (columnIndex !== -1) {
+      this.columns[columnIndex] = updatedColumn;
+    }
   }
 
   onTaskDragOver(event: DragEvent): void {
@@ -56,7 +69,7 @@ export class BoardComponent implements OnInit {
 
         // Actualiza la columna de la tarea en la base de datos
         this.taskService.update(draggedTask.id, { column_id: targetColumn.id })
-        .subscribe((response) => {
+        .subscribe(() => {
           console.log('Tarea actualizada correctamente');
         }, (error) => {
           console.error('Error al actualizar la tarea:', error);

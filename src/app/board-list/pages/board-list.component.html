@@ -1,0 +1,13 @@
+<div class="board">
+  <div class="board board-name" *ngFor="let board of boards">
+    <div class="card bg-secondary">
+      <div class="card-body text-white" (click)="selectBoard(board)">
+        {{ board.name}}
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+
+
+  

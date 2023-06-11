@@ -1,1 +1,28 @@
-<p>task works!</p>
+<div class="task">
+    <div *ngIf="edit!=true">
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.description }}</p>
+        <button type="submit" title="btnEdit" class="btn btn-dark"
+        (click)="editTask()">
+        <i class="fa fa-edit" aria-hidden="true"> </i>
+        </button>
+        <button type="submit" title="btnDelete" class="btn btn-danger"
+            (click)="deleteTask()">
+            <i class="fa fa-trash" aria-hidden="true"> </i>
+        </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="updateTask()" *ngIf="edit">
+        <div class="form-group">
+            <label for="nombre">Titulo:</label>
+            <input class="form-control" type="text" formControlName="title" [(ngModel)]="task.title" placeholder="Título" required>
+        </div>
+        <div class="">
+          <label for="descripcion">Descripción:</label>
+          <textarea class="form-control" formControlName="description" placeholder="Descripción"  [(ngModel)]="task.description" required></textarea>
+        </div>
+        <br>
+        <button class="btn btn-dark" type="submit" >Actualizar</button>
+        <button type="reset" (click)="cancel()" class="btn btn-primary" >Cancelar</button>
+    </form>
+
+</div>

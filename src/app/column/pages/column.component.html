@@ -1,1 +1,15 @@
-<p>column works!</p>
+<div class="column" >
+    <div class="column-header">{{ column.name }}</div>
+    <div class="column-content">
+        <div class="tasks">
+            <app-task *ngFor="let task of column.tasks" 
+                [task]="task" draggable="true" 
+                [attr.data-task]="task.id" 
+                [attr.data-column]="column.id" 
+                (dragstart)="onTaskDragStart($event, task, column)"
+                (taskDeleted)="onTaskDeleted(task)"
+            >
+            </app-task>
+        </div>    
+    </div>
+  </div>
