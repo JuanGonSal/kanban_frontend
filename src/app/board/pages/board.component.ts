@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BoardService } from '../board.service';
 import { ColumnService } from '../../column/column.service';
 import { TaskService } from '../../task/task.service';
 import { Column } from '../../column/column';
+import { Board } from '../board';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,6 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class BoardComponent implements OnInit {
+  @Input() board!: Board;
+  
   columns: Column[] = [];
   name: String = '';
   id!: number;
@@ -40,6 +43,28 @@ export class BoardComponent implements OnInit {
       });
     });
 
+  }
+
+  createColumn(){
+    const newColumn: Column = {
+      id: 0,
+      name: prompt('Ingrese el título de la nueva columna'),
+      board_id: this.id,
+      order: 0,
+      tasks: []
+    };
+
+    if (newColumn) {
+      this.columns.push(newColumn);
+      this.columnService.create(newColumn).subscribe((column: any) => {});
+    }
+  }
+
+  onColumnDeleted(column: Column): void {
+    const index = this.columns.findIndex(t => t.id === column.id);
+    if (index > -1) {
+      this.columns.splice(index, 1);
+    }
   }
 
   onTaskUpdated(updatedColumn: Column): void {

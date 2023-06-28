@@ -9,12 +9,8 @@
 </div>
 
 <div class="content" role="main">
-  <app-board-list *ngIf="!taskShowFlag" ></app-board-list>
-
-  <button *ngIf="!taskShowFlag" class="btn btn-dark" (click)="taskShow()">Nueva tarea</button>
-  <app-task-show *ngIf="taskShowFlag"></app-task-show>
+  <app-board-list></app-board-list>
   <br>
-<!--   <app-board *ngIf="!taskShowFlag" ></app-board> -->
 
   <!-- Footer -->
   <footer>

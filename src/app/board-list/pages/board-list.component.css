@@ -1,16 +1,24 @@
-.board {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    padding:5px; 
-  }
 
-.board-name {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.card {
+  width: 250px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #f7f7f7;
+  margin:5px; 
+  display: inline-block;
 }
 
-.btn{
-  margin: 2px;
+.card-content {
+  padding: 16px;
+}
+
+h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+p {
+  color: #777;
+  font-size: 16px;
 }

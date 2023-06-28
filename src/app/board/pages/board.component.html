@@ -1,12 +1,7 @@
 <div class="card bg-secondary">
-  <div class="card-header text-white flex-end justify-content-right">
-    <div class="row">
-      <div class="board-name col-10">{{ name }}</div>
-      <div class="col-2">
-        <button class="btn btn-dark" >Nueva tarea</button>
-        <button class="btn btn-dark" >Nueva columna</button>
-      </div>
-    </div>
+  <div class="card-header text-white d-flex justify-content-between">
+      <h4>{{ name }}</h4>
+      <button class="btn btn-dark btn-sm" (click)="createColumn()"><i class="fa fa-plus"> Crear columna</i></button>
   </div>
   <div class="card-body">
     <div class="board">
@@ -15,6 +10,7 @@
           [column]="column" 
           (dragover)="onTaskDragOver($event)" 
           (drop)="onTaskDrop($event, column)"
+          (columnDeleted)="onColumnDeleted(column)"
         ></app-column>
       </div>
     </div>

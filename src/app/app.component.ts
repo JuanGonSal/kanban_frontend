@@ -7,9 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'kanban_angular';
-  taskShowFlag = false;
-
-  taskShow() {
-    this.taskShowFlag = !this.taskShowFlag;
-  }
 }

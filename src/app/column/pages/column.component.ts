@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Column } from '../column';
 import { Task } from 'src/app/task/task';
-
+import { ColumnService } from '../column.service';
+import { TaskService } from 'src/app/task/task.service';
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',
@@ -9,6 +10,22 @@ import { Task } from 'src/app/task/task';
 })
 export class ColumnComponent {
   @Input() column!: Column;
+
+  @Output()  columnDeleted: EventEmitter<Column> = new EventEmitter<Column>();
+
+  constructor(
+    private columnService: ColumnService,
+    private taskService: TaskService
+  ) { }
+
+  deleteColumn(){
+    this.columnService.delete(this.column.id).subscribe(() => {
+      // Lógica adicional después de crear la tarea, si es necesario
+    });
+
+    // Emitir evento de actualización hacia el componente padre
+    this.columnDeleted.emit(this.column);
+  }
 
   onTaskDragStart(event: DragEvent, task: Task, column: Column): void {
     event.dataTransfer?.setData('text/plain', task.id.toString());
@@ -22,4 +39,18 @@ export class ColumnComponent {
     }
   }
 
+  createTask(){
+    const newTask: Task = {
+      id: 0,
+      title: prompt('Ingrese el título de la nueva tarea'),
+      description: prompt('Ingrese la descripción de la nueva tarea'),
+      column_id: this.column.id,
+      order: 0
+    };
+    // Lógica para actualizar la tarea
+    this.taskService.create(newTask).subscribe(() => {
+      // Lógica adicional después de crear la tarea, si es necesario
+        this.column.tasks.push(newTask);
+    });
+  }
 }

@@ -23,7 +23,6 @@ export class TaskComponent {
 
   editTask(){
     this.edit = true;
-    console.log(this.task.title);
     this.form.value.title = this.task.title;
     this.form.value.description = this.task.description;
   }
