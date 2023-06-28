@@ -11,3 +11,8 @@ Ejecutar `ng serve` . Navegar a la url `http://localhost:4200/`.
 
 Ejecutar `ng build` para construir el proyecto. Se ubicará en `dist/` .
 
+## Autor
+Juan González Salgueiro
+
+## Colaboraciones
+Cristina Rodríguez Bolaño (Logo)
