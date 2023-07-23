@@ -3,7 +3,7 @@
 <div class="card" *ngFor="let board of boards" (click)="selectBoard(board)">
   <div class="card-header d-flex justify-content-between">
     <h2>{{ board.name }}</h2>
-    <div class="btn btn-danger btn-sm" (click)="deleteBoard(board)">
+    <div class="btn btn-danger btn-sm" (click)="deleteBoard(board, $event)">
       <i class="fa fa-trash"></i>
     </div>
   </div>

@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Column } from '../column';
-import { Task } from 'src/app/task/task';
+import { Task } from '../../task/task';
 import { ColumnService } from '../column.service';
-import { TaskService } from 'src/app/task/task.service';
+import { TaskService } from '../../task/task.service';
+
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',

@@ -154,15 +154,14 @@
     z-index: -10;
   }
 
-  a,
-  a:visited,
-  a:hover {
-    color: #2e4ea7;
+/*   a,
+  a:visited {
+    color: #d3deff;
     text-decoration: none;
-  }
+  } */
 
   a:hover {
-    color: #125699;
+    color: #688097;
   }
 
   .terminal {

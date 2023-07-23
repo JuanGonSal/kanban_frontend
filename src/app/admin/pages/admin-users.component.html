@@ -1,0 +1,55 @@
+<div class="card mt-4">
+    <h4 class="card-header">Admin</h4>
+    <div class="card-body">
+        <p>Esta pagina solo es accesible <u>para administradores</u>.</p>
+        <p class="mb-1">Lista de usuarios:</p>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Equipos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>            
+                  <button type="submit" title="btnEdit" class="btn btn-dark"
+                      (click)="editRow(user)"
+                      *ngIf="!user.editando" [disabled]="editando">
+                      <i class="fa fa-edit" aria-hidden="true"> </i>
+                  </button>
+                  <button type="submit" title="btnDelete" class="btn btn-danger"
+                      (click)="deleteRow(user)"
+                      *ngIf="!user.editando" [disabled]="editando">
+                      <i class="fa fa-trash" aria-hidden="true"> </i>
+                  </button>
+                </td>
+                <td>{{ user.name }}</td>
+                <td>
+                    <ng-multiselect-dropdown
+                      [data]="roles"
+                      [(ngModel)]="user.roles"
+                      [settings]="dropdownSettings"
+                      [disabled]="!user.editando"
+                    >
+                    </ng-multiselect-dropdown>
+                </td>
+                <td>
+                    <ng-multiselect-dropdown
+                        [data]="teams"
+                        [(ngModel)]="user.teams"
+                        [settings]="dropdownSettings"
+                        [disabled]="!user.editando"
+                    >
+                    </ng-multiselect-dropdown>
+                </td>
+                <button class="btn btn-dark" type="submit" (click)="submitForm(user)" *ngIf="user.editando">✔</button>
+                <button class="btn btn-dark" (click)="cancelEdit(user)" *ngIf="user.editando">✖</button>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

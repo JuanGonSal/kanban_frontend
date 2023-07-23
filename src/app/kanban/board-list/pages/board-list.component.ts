@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardListService } from '../board-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Board } from 'src/app/board/board';
-import { BoardService } from 'src/app/board/board.service';
+import { Board } from '../../board/board';
+import { BoardService } from '../../board/board.service';
 @Component({
   selector: 'app-board-list',
   templateUrl: './board-list.component.html',
@@ -43,7 +43,8 @@ export class BoardListComponent implements OnInit {
     this.router.navigate(['/board', board.id]);
   }
 
-  deleteBoard(board: any){
+  deleteBoard(board: any, event: any){
+    event.stopPropagation();
     this.boardService.delete(board.id).subscribe((board: any) => {
         window.location.reload();
     });
