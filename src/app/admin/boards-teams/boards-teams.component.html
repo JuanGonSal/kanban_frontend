@@ -1,0 +1,44 @@
+<div class="card mt-4">
+    <h4 class="card-header">Tableros</h4>
+    <div class="card-body">
+        <p>Esta pagina solo es accesible <u>para administradores</u>.</p>
+        <p class="mb-1">Lista de tableros:</p>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Equipo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let board of boards">
+                <td>            
+                  <button type="submit" title="btnEdit" class="btn btn-dark"
+                      (click)="editRow(board)"
+                      *ngIf="!board.editando" [disabled]="editando">
+                      <i class="fa fa-edit" aria-hidden="true"> </i>
+                  </button>
+                  <button type="submit" title="btnDelete" class="btn btn-danger"
+                      (click)="deleteRow(board)"
+                      *ngIf="!board.editando" [disabled]="editando">
+                      <i class="fa fa-trash" aria-hidden="true"> </i>
+                  </button>
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="board.name" [disabled]="!editando">
+                </td>
+                <td>
+                    <select class="form-control"  [(ngModel)]="teams" title="teams" *ngIf="editando">
+                      <option *ngFor="let team of teams" [value]="team?.id">{{ team?.name }}</option>
+                    </select>
+                    <input class="form-control" [(ngModel)]="board.team.name" disabled *ngIf="!editando">
+                </td>
+                <button class="btn btn-dark" type="submit" (click)="submitForm(board, teams)" *ngIf="board.editando">✔</button>
+                <button class="btn btn-dark" (click)="cancelEdit(board)" *ngIf="board.editando">✖</button>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

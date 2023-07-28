@@ -49,4 +49,12 @@ export class AuthenticationService {
         this.userSubject.next(null);
         this.router.navigate(['/login']);
     }
+
+    profile(){
+        return this.http.get<any>(`${environment.apiUrl}/auth/user-profile`, {})
+        .pipe(map(user => {
+            return user;
+        }
+    ));
+    }
 }

@@ -5,6 +5,9 @@ import { TaskService } from '../../task/task.service';
 import { Column } from '../../column/column';
 import { Board } from '../board';
 import { ActivatedRoute } from '@angular/router';
+import { User } from 'src/app/_models/user';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-board',
@@ -18,15 +21,23 @@ export class BoardComponent implements OnInit {
   columns: Column[] = [];
   name: String = '';
   id!: number;
-
+  loading = false;
+  user?: User | null;
+  
   constructor(
     private boardService: BoardService, 
     private columnService: ColumnService, 
     private taskService: TaskService,
+    private authenticationService: AuthenticationService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
+    this.authenticationService.profile().pipe(first()).subscribe(user => {
+      this.user =  user;
+      this.loading = false;
+    });
     this.route.paramMap.subscribe(params => {
       this.id = Number(params.get('id'));
       this.boardService.getById(this.id).subscribe((board: any) => {
@@ -101,5 +112,27 @@ export class BoardComponent implements OnInit {
         });
       }
     }
+  }
+
+  get isGestor() {
+    let isGestor: boolean = false;
+    this.user?.roles.forEach(rol => {
+      if ( rol.name === 'gestor'){
+        isGestor = true;
+      };
+      return isGestor;
+    });
+    return isGestor;
+  }
+
+  get isAdmin() {
+    let isAdmin: boolean = false;
+    this.user?.roles.forEach(rol => {
+      if ( rol.name === 'admin'){
+        isAdmin = true;
+      };
+      return isAdmin;
+    });
+    return isAdmin;
   }
 }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { AuthenticationService } from './_services/authentication.service';
 import { User } from './_models/user';
 import { UserService } from './_services/user.service';
@@ -27,7 +26,6 @@ export class AppComponent {
     if(this.user?.id != null){
         this.userService.getById(this.user?.id).pipe(first()).subscribe(user => {
             this.loading = false;
-           /*  this.userFromApi = user; */
         });
     }
   }

@@ -8,16 +8,11 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"  *ngIf="isAdmin">
           <li><a class="dropdown-item" routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios</a></li>
+          <li><a class="dropdown-item" routerLink="/admin/boards-teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrar Tableros</a></li>
           <li><a class="dropdown-item" routerLink="/admin/teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Equipos</a></li>
           <li><a class="dropdown-item" routerLink="/admin/users-inactive" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios inactivos</a></li>
         </ul>
       </div>
-
-
-
-
-
-
   </div>
   <ul class="nav navbar-nav navbar-right">
     <div class="dropdown">

@@ -9,6 +9,7 @@ import { RegisterComponent } from './registrer/register.component';
 import { AdminUsersComponent } from './admin/pages/admin-users.component';
 import { AdminUsersInactiveComponent } from './admin/pages/admin-users-inactive.component';
 import { TeamsComponent } from './admin/teams/teams.component';
+import { BoardsTeamsComponent } from './admin/boards-teams/boards-teams.component';
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
     {
         path: 'admin/users', 
         component: AdminUsersComponent, 
+    },
+    {
+        path: 'admin/boards-teams', 
+        component: BoardsTeamsComponent, 
     },
     {
         path: 'admin/teams', 

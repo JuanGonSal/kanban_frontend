@@ -8,13 +8,16 @@ import { AdminComponent } from './pages/admin.component';
 import { AdminUsersComponent } from './pages/admin-users.component';
 import { AdminUsersInactiveComponent } from './pages/admin-users-inactive.component';
 import { TeamsComponent } from './teams/teams.component';
+import { BoardsTeamsComponent } from './boards-teams/boards-teams.component';
+
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminUsersComponent,
     AdminUsersInactiveComponent,
-    TeamsComponent
+    TeamsComponent,
+    BoardsTeamsComponent
   ],
   exports: [
     AdminComponent

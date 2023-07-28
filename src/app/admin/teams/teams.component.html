@@ -1,1 +1,41 @@
-<p>teams works!</p>
+<div class="card mt-4">
+    <h4 class="card-header">Equipos</h4>
+    <div class="card-body">
+        <p>Esta pagina solo es accesible <u>para administradores</u>.</p>
+        <button type="submit" title="btnNew" class="btn btn-dark"
+            (click)="newRow()">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+        </button>
+        <p class="mb-1">Lista de equipos:</p>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let team of teams">
+                <td>            
+                  <button type="submit" title="btnEdit" class="btn btn-dark"
+                      (click)="editRow(team)"
+                      *ngIf="!team.editando" [disabled]="editando">
+                      <i class="fa fa-edit" aria-hidden="true"> </i>
+                  </button>
+                  <button type="submit" title="btnDelete" class="btn btn-danger"
+                      (click)="deleteRow(team)"
+                      *ngIf="!team.editando" [disabled]="editando">
+                      <i class="fa fa-trash" aria-hidden="true"> </i>
+                  </button>
+                </td>
+                <td>
+                    <input class="form-control" [(ngModel)]="team.name" [disabled]="!editando">
+                </td>
+                <button class="btn btn-dark" type="submit" (click)="submitForm(team)" *ngIf="team.editando">✔</button>
+                <button class="btn btn-dark" (click)="cancelEdit(team)" *ngIf="team.editando">✖</button>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

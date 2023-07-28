@@ -15,4 +15,18 @@ export class TeamService {
     getById(id: number) {
         return this.http.get<Team>(`${environment.apiUrl}/teams/${id}`);
     }
+
+    store(team: Team){
+        return this.http.post<Team>(`${environment.apiUrl}/teams/`, team);
+    }
+
+    update(team: Team){
+        console.log(team);
+        return this.http.put<Team>(`${environment.apiUrl}/teams/${team.id}`, team);
+    }
+
+    delete(team: Team){
+        console.log(team);
+        return this.http.delete<Team>(`${environment.apiUrl}/teams/${team.id}`);
+    }
 }
