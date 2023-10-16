@@ -12,9 +12,35 @@
   </div>
 </div>
 
-<div class="btn btn-dark btn-sm" (click)="createBoard()" *ngIf="isGestor || isAdmin">
-      <i class="fa fa-plus"> Crear tablero</i>
+<div class="btn btn-dark btn-sm" (click)="modalService.open('modal-1')" *ngIf="isGestor || isAdmin">
+      <i class="fa fa-plus"> Nuevo tablero</i>
 </div>
+
+
+  <modal id="modal-1">
+      <div class="modal-header">
+          <h5 class="modal-title">Nuevo tablero</h5>
+          <button type="button" class="btn-close" (click)="modalService.close();"></button>
+      </div>
+      <div class="modal-body">
+          <p>Creación de un nuevo tablero</p>
+          <p>
+              <label class="form-label">Nombre tablero:</label>
+              <input type="text" class="form-control" [(ngModel)]="name" required/>
+              <label class="form-label">Descripción:</label>
+              <input type="text" class="form-control" [(ngModel)]="description" />
+              <label class="form-label">Equipo:</label>
+              <select class="form-control" [(ngModel)]="team" required>
+                <option *ngFor="let item of teams" [ngValue]="item">{{ item.name }}</option>
+              </select>
+          </p>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="createBoard();">Crear</button>
+          <button type="button" class="btn btn-secondary" (click)="modalService.close();">Close</button>
+      </div>
+  </modal>
+
 
 
   

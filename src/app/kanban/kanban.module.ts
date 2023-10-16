@@ -9,6 +9,7 @@ import { TaskComponent } from './task/pages/task.component';
 import { TaskShowComponent } from './task/pages/task-show/task-show.component';
 import { BoardListComponent } from './board-list/pages/board-list.component';
 import { KanbanRoutingModule } from './kanban-routing.module';
+import { ModalComponent } from '../_components/modal.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { KanbanRoutingModule } from './kanban-routing.module';
     BoardComponent,
     TaskComponent,
     TaskShowComponent,
-    BoardListComponent
+    BoardListComponent,
+    ModalComponent
   ],
   exports: [
     BoardListComponent
