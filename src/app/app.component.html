@@ -1,27 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="user">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="favicon.ico" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Kanban
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Tableros</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" *ngIf="isAdmin"  href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Administración
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/users-inactive" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios inactivos</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="/admin/teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Equipos</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="/admin/boards-teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrar Tableros</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" value="{{ user.name }}" disabled>
+        <button class="btn btn-outline-secondary" (click)="logout()">Logout</button>
+      </form>
+    </div>
+  </div>
+</nav>
 <!-- nav -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" *ngIf="user">
-  <div class="navbar-nav collapse navbar-collapse">
-      <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Tableros</a>
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" *ngIf="isAdmin" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Administracion
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"  *ngIf="isAdmin">
-          <li><a class="dropdown-item" routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios</a></li>
-          <li><a class="dropdown-item" routerLink="/admin/boards-teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Administrar Tableros</a></li>
-          <li><a class="dropdown-item" routerLink="/admin/teams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Equipos</a></li>
-          <li><a class="dropdown-item" routerLink="/admin/users-inactive" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Usuarios inactivos</a></li>
-        </ul>
-      </div>
-  </div>
-  <ul class="nav navbar-nav navbar-right">
-    <div class="dropdown">
-      <button class="btn btn-secondary"type="button" data-bs-toggle="" aria-expanded="false">
-        {{ user.name }}
-      </button>
-    </div>
-    <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
-  </ul>
 </nav>
 
 <!-- main app container -->
