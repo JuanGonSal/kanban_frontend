@@ -1,0 +1,24 @@
+
+  .tag {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: move;
+  }
+  
+  .tag-header {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .tag-content {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .btn{
+    margin: 2px;
+  }

@@ -1,0 +1,23 @@
+<div class="tag">
+    <div *ngIf="edit!=true">
+        <h3>{{ tag.title }}</h3>
+        <button type="submit" title="btnEdit" class="btn btn-dark"
+        (click)="editTag()">
+        <i class="fa fa-edit" aria-hidden="true"> </i>
+        </button>
+        <button type="submit" title="btnDelete" class="btn btn-danger"
+            (click)="deleteTag()">
+            <i class="fa fa-trash" aria-hidden="true"> </i>
+        </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="updateTag()" *ngIf="edit">
+        <div class="form-group">
+            <label for="nombre">Titulo:</label>
+            <input class="form-control" type="text" formControlName="title" [(ngModel)]="tag.title" placeholder="Título" required>
+        </div>
+        <br>
+        <button class="btn btn-dark" type="submit" >Actualizar</button>
+        <button type="reset" (click)="cancel()" class="btn btn-primary" >Cancelar</button>
+    </form>
+
+</div>
