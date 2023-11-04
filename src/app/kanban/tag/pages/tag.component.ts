@@ -14,7 +14,7 @@ export class TagComponent {
   @Output()  tagUpdated: EventEmitter<Tag> = new EventEmitter<Tag>();
 
   form = this.formBuilder.group({
-    title: '',
+    name: '',
   });
   public edit = false;
 
@@ -22,7 +22,7 @@ export class TagComponent {
 
   editTag(){
     this.edit = true;
-    this.form.value.title = this.tag.title;
+    this.form.value.name = this.tag.name;
   }
 
   cancel(){
@@ -32,8 +32,7 @@ export class TagComponent {
   updateTag(): void {
     const updateTag: Tag = {
       id: this.tag.id,
-      title: this.form.value.title,
-      order: this.tag.order,
+      name: this.form.value.name,
       task_id: this.tag.task_id
     }
 

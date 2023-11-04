@@ -34,7 +34,7 @@ export class AdminUsersComponent implements OnInit {
             idField: 'id',
             textField: 'name',
         };
-     }
+    }
 
     ngOnInit() {
         this.getRows();

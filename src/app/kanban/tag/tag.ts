@@ -1,6 +1,6 @@
 export interface Tag {
     id: number;
-    title?: string | null;
-    order: number;
+    name?: string | null;
     task_id: number;
+/*     class: string | null; */
   }

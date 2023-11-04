@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Task } from './task';
+import { Tag } from '../tag/tag';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class TaskService {
 
   getTasksByColumn(columnId: number): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}/${this.baseUrl}/getTasksByColumn/${columnId}`);
+  }
+  
+  addTagsToTask(taskId: number, tags: Tag[]): Observable<Tag> {
+    return this.http.post<Tag>(`${this.apiUrl}/${this.baseUrl}/addTagsToTask/${taskId}`, tags);
   }
 }

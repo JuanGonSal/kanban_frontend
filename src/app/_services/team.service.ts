@@ -17,7 +17,7 @@ export class TeamService {
     }
 
     store(team: Team){
-        return this.http.post<Team>(`${environment.apiUrl}/teams/`, team);
+        return this.http.post<Team>(`${environment.apiUrl}/teams`, team);
     }
 
     update(team: Team){

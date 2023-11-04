@@ -30,18 +30,18 @@
                 <td>{{ user.name }}</td>
                 <td>
                     <ng-multiselect-dropdown
+                      [settings]="dropdownSettings"
                       [data]="roles"
                       [(ngModel)]="user.roles"
-                      [settings]="dropdownSettings"
                       [disabled]="!user.editando"
                     >
                     </ng-multiselect-dropdown>
                 </td>
                 <td>
                     <ng-multiselect-dropdown
+                        [settings]="dropdownSettings"
                         [data]="teams"
                         [(ngModel)]="user.teams"
-                        [settings]="dropdownSettings"
                         [disabled]="!user.editando"
                     >
                     </ng-multiselect-dropdown>

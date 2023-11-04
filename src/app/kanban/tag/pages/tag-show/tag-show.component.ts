@@ -19,8 +19,7 @@ export class TagShowComponent {
   createTag(): void {
     const newTag: Tag = {
       id: -1,
-      title: this.form.value.title,
-      order: 0,
+      name: this.form.value.title,
       task_id: 1
     }
 

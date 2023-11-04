@@ -22,3 +22,11 @@
   .btn{
     margin: 2px;
   }
+
+  .small-x {
+    font-size: 10px; 
+  }
+
+  .badge-margin {
+    margin-right: 10px;
+  }

@@ -12,6 +12,7 @@ import { TagShowComponent } from './tag/pages/tag-show/tag-show.component';
 import { BoardListComponent } from './board-list/pages/board-list.component';
 import { KanbanRoutingModule } from './kanban-routing.module';
 import { ModalComponent } from '../_components/modal.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ModalComponent } from '../_components/modal.component';
     HttpClientModule,
     BrowserModule,
     FormsModule,
-    KanbanRoutingModule
+    KanbanRoutingModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
 export class KanbanModule { }

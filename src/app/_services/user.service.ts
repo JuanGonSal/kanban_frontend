@@ -23,7 +23,7 @@ export class UserService {
     }
 
     update(user: User){
-        return this.http.post<User>(`${environment.apiUrl}/users/`, user);
+        return this.http.post<User>(`${environment.apiUrl}/users`, user);
     }
 
     getInactive() {
