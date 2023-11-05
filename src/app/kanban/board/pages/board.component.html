@@ -1,3 +1,4 @@
+
 <div class="card bg-secondary bg-opacity-25">
   <div class="card-header text-white d-flex justify-content-between">
       <h4>{{ name }}</h4>
@@ -6,17 +7,19 @@
       </div>
   </div>
   <div class="card-body">
-    <div class="board">
-      <div class="board">
-        <app-column *ngFor="let column of columns" 
-          [column]="column" 
-          (dragover)="onTaskDragOver($event)" 
-          (drop)="onTaskDrop($event, column)"
-          (columnDeleted)="onColumnDeleted(column)"
-        ></app-column>
-      </div>
+
+        <div class="board">
+            
+            <div class="row">
+                <app-column *ngFor="let column of columns" class="col-lg-4"
+                  [column]="column" 
+                  (dragover)="onTaskDragOver($event)" 
+                  (drop)="onTaskDrop($event, column)"
+                  (columnDeleted)="onColumnDeleted(column)"
+                ></app-column>
+              </div>
+        </div>
     </div>
-  </div>
 </div>
 
 

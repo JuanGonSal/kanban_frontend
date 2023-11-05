@@ -1,8 +1,7 @@
+<br>
+<img alt="" src="favicon.ico" width="100" class="mx-auto d-block">
+<br>
 <div class="col-md-6 offset-md-3 mt-5">
-<!--     <div class="alert alert-info">
-        <strong>Normal User</strong> - U: user P: user<br />
-        <strong>Administrator</strong> - U: admin P: admin
-    </div> -->
     <div class="card">
         <h4 class="card-header">Login</h4>
         <div class="card-body">
@@ -21,7 +20,7 @@
                         <div *ngIf="f['password'].errors['required']">Password requerido</div>
                     </div>
                 </div>
-                <button type="submit" [disabled]="loading" class="btn btn-primary">
+                <button type="submit" [disabled]="loading" class="btn btn-dark">
                     <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
                     Login
                 </button>

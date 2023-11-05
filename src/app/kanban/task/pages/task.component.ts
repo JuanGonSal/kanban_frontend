@@ -95,7 +95,6 @@ export class TaskComponent {
 
   editTask(){
     this.edit = true;
-    console.log(this.edit);
     this.form.value.title = this.task.title;
     this.form.value.description = this.task.description;
   }
@@ -105,6 +104,7 @@ export class TaskComponent {
   }
 
   updateTask(): void {
+    this.edit = false;
     const updateTask: Task = {
       id: this.task.id,
       title: this.form.value.title,
@@ -116,7 +116,6 @@ export class TaskComponent {
     // Lógica para actualizar la tarea
     this.taskService.update(this.task.id,updateTask).subscribe(() => {
       // Lógica adicional después de crear la tarea, si es necesario
-      this.edit = false;
     });
     this.addTags();
     this.taskUpdated.emit(this.task);
