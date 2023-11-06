@@ -2,9 +2,11 @@
   margin: 25px;
 }
 
+.card-body{
+  overflow-x: auto;
+}
 .board {
     display: flex;
-    justify-content: space-around;
     align-items: flex-start;
   }
 
