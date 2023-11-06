@@ -25,16 +25,22 @@
       <div class="modal-body">
           <p>Creación de un nuevo tablero</p>
           <p>
-              <label class="form-label">Nombre tablero:</label>
+              <label class="form-label">Nombre tablero*:</label>
               <input type="text" class="form-control" [(ngModel)]="name" required/>
               <label class="form-label">Descripción:</label>
               <input type="text" class="form-control" [(ngModel)]="description" />
-              <label class="form-label">Equipo:</label>
+              <label class="form-label">Equipo*:</label>
               <select class="form-control" [(ngModel)]="team" required>
+                <option value="" disabled selected>Selecciona un equipo</option>
                 <option *ngFor="let item of teams" [ngValue]="item">{{ item.name }}</option>
               </select>
+
           </p>
+          <div *ngIf="modalNoValid" class="alert alert-danger">
+            Complete los campos requeridos masrcados con *
+          </div>
       </div>
+
       <div class="modal-footer">
           <button type="button" class="btn btn-primary" (click)="createBoard();">Crear</button>
           <button type="button" class="btn btn-secondary" (click)="modalService.close();">Close</button>

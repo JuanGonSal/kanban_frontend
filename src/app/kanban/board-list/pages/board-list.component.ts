@@ -24,6 +24,7 @@ export class BoardListComponent implements OnInit {
   description? :any;
   team? :any;
   teams? :any;
+  modalNoValid = false;
 
   constructor(
               private boardListService: BoardListService, 
@@ -46,6 +47,10 @@ export class BoardListComponent implements OnInit {
   }
   
   createBoard(){
+    if(!this.name || !this.team) {
+      this.modalNoValid = true
+      return;
+    }
     const newBoard: Board = {
       id: 0,
       name: this.name,
