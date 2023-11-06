@@ -10,12 +10,17 @@ import { AdminUsersComponent } from './admin/pages/admin-users.component';
 import { AdminUsersInactiveComponent } from './admin/pages/admin-users-inactive.component';
 import { TeamsComponent } from './admin/teams/teams.component';
 import { BoardsTeamsComponent } from './admin/boards-teams/boards-teams.component';
+import { TagComponent } from './kanban/tag/pages/tag.component';
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'tags', 
+        component: TagComponent, 
     },
     {
         path: 'admin',

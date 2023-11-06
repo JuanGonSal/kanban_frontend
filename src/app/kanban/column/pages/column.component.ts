@@ -51,7 +51,6 @@ export class ColumnComponent {
     // Lógica para actualizar la tarea
     this.taskService.create(newTask).subscribe((result) => {
       // Lógica adicional después de crear la tarea, si es necesario
-        console.log(result);
         newTask.id = result.id;
         this.column.tasks.push(newTask);
     });

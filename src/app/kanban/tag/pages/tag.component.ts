@@ -17,8 +17,44 @@ export class TagComponent {
     name: '',
   });
   public edit = false;
+  loading = false;
+  tags?: any=[];
+  editando: boolean = false;
+  backupData: any;
 
   constructor(private tagService: TagService, private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
+    this.getRows();
+  }
+
+  getRows(){
+    this.loading = true;
+    this.tagService.getAll().subscribe(tags => {
+        tags?.forEach((tag) => { });
+        this.tags = tags;
+    });
+    this.loading = false;
+  }
+
+  newRow(){
+    const newTag: Tag = {
+      id: 0,
+      name: prompt('Ingrese un nombre para la etiqueta'),
+      task_id: 0
+    };
+
+    if (newTag) {
+      this.tagService.create(newTag).subscribe((tag: any) => {});
+      this.getRows();
+    }
+  }
+
+  editRow(tag: any) {
+    this.editando = true;
+    this.backupData = { ...tag };
+    tag.editando = true;
+  }
 
   editTag(){
     this.edit = true;
@@ -43,6 +79,12 @@ export class TagComponent {
     });
   }
 
+  deleteRow(tag: any) {
+      tag.active = false;
+      this.tagService.delete(tag.id).subscribe((user: any) => {});
+      this.getRows();
+  }
+
   deleteTag(): void {
     this.tagService.delete(this.tag.id).subscribe(() => {
       // Lógica adicional después de crear la tarea, si es necesario
@@ -50,5 +92,18 @@ export class TagComponent {
 
     // Emitir evento de actualización hacia el componente padre
     this.tagDeleted.emit(this.tag);
+  }
+
+  submitForm(tagId: number, tag: any) {
+    this.tagService.update(tagId, tag).subscribe((tag: any) => {});
+    this.editando = false;
+    tag.editando = false;
+  }
+
+  cancelEdit(tag: any) {
+    this.editando = false;
+    Object.assign(tag, this.backupData);
+    this.backupData = null;
+    tag.editando = false;
   }
 }

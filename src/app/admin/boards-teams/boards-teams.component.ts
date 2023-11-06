@@ -46,7 +46,6 @@ export class BoardsTeamsComponent {
   }
 
   submitForm(board: any, teams:any) {
-    console.log(this.teams);
       board.team_id = this.teams;
       this.boardService.update(board.id, board).subscribe((board: any) => {});
       this.editando = false;

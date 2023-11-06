@@ -1,3 +1,41 @@
-<div class="tag">
-    <span class="badge badge-primary">Etiqueta 1</span>
+<div class="card mt-4">
+    <h4 class="card-header">Etiquetas</h4>
+    <div class="card-body">
+        <p>Esta pagina solo es accesible <u>para gestores y administradores</u>.</p>
+        <button type="submit" title="btnNew" class="btn btn-dark"
+        (click)="newRow()">
+            <i class="fa fa-plus" aria-hidden="true"></i> Nuevo
+        </button>
+        <p class="mb-1">Lista de etiquetas:</p>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tag of tags">
+                <td>            
+                  <button type="submit" title="btnEdit" class="btn btn-dark"
+                      (click)="editRow(tag)"
+                      *ngIf="!tag.editando" [disabled]="editando">
+                      <i class="fa fa-edit" aria-hidden="true"> </i>
+                  </button>
+                  <button type="submit" title="btnDelete" class="btn btn-danger"
+                      (click)="deleteRow(tag)"
+                      *ngIf="!tag.editando" [disabled]="editando">
+                      <i class="fa fa-trash" aria-hidden="true"> </i>
+                  </button>
+                </td>
+                <td>
+                  <input class="form-control" [(ngModel)]="tag.name" [disabled]="!editando">
+                </td>
+                <button class="btn btn-dark" type="submit" (click)="submitForm(tag.id, tag)" *ngIf="tag.editando">✔</button>
+                <button class="btn btn-dark" (click)="cancelEdit(tag)" *ngIf="tag.editando">✖</button>
+              </tr>
+            </tbody>
+          </table>
+    </div>
 </div>

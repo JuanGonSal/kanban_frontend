@@ -41,6 +41,17 @@ export class AppComponent {
     return isAdmin;
   }
 
+  get isGestor() {
+    let isGestor: boolean = false;
+    this.user?.roles.forEach(rol => {
+      if ( rol.name === 'gestor' || rol.name === 'admin'){
+        isGestor = true;
+      };
+      return isGestor;
+    });
+    return isGestor;
+  }
+
   logout() {
       this.authenticationService.logout();
   }

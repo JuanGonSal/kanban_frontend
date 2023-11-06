@@ -64,8 +64,6 @@ export class TaskComponent {
   openTagModal(){
     this.taskUpdated.emit(this.task);
     this.tagsUpdated.emit(this.tags);
-    console.log(this.task.id);
-    console.log(this.tags);
     this.modalService.open('modal-tags');
 
   }
@@ -84,7 +82,6 @@ export class TaskComponent {
   }
 
   addTags(){
-    console.log(this.task.id, this.tags);
     this.taskService.addTagsToTask(this.task.id, this.tags).subscribe(() => {
       // Lógica adicional después de crear la tarea, si es necesario
       this.edit = false;

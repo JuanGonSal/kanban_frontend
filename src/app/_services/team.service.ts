@@ -21,12 +21,10 @@ export class TeamService {
     }
 
     update(team: Team){
-        console.log(team);
         return this.http.put<Team>(`${environment.apiUrl}/teams/${team.id}`, team);
     }
 
     delete(team: Team){
-        console.log(team);
         return this.http.delete<Team>(`${environment.apiUrl}/teams/${team.id}`);
     }
 }
