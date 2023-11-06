@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // used to create fake backend
 /* import { fakeBackendProvider } from './_helpers/fake-backend'; */
 
@@ -42,6 +42,7 @@ import { AdminModule } from './admin/admin.module';
   providers: [
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
       { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+      {provide: LocationStrategy, useClass: HashLocationStrategy}
 
       // provider used to create fake backend
 /*       fakeBackendProvider */
