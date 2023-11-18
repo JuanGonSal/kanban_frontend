@@ -1,9 +1,11 @@
 <div class="column" >
     <div class="column-header d-flex justify-content-between">
         {{ column.name }}
-        <div class="btn btn-danger btn-sm" (click)="deleteColumn()">
-            <i class="fa fa-trash"></i>
-          </div>
+        <div *ngIf="isGestor || isAdmin">
+            <div class="btn btn-danger btn-sm" (click)="deleteColumn()">
+                <i class="fa fa-trash"></i>
+            </div>
+        </div>
     </div>
     <div class="column-content">
         <div class="tasks">

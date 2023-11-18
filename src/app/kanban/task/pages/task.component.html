@@ -9,13 +9,17 @@
             <div class="form-group">
                 <label for="nombre">Titulo:</label>
                 <input class="form-control" type="text" formControlName="title" [(ngModel)]="task.title" placeholder="Título" required>
-            </div>
-            <div class="">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="form-control" formControlName="description" placeholder="Descripción"  [(ngModel)]="task.description" required></textarea>
+                <label for="descripcion">Descripción:</label>
+                <textarea class="form-control" formControlName="description" placeholder="Descripción" [(ngModel)]="task.description" required></textarea>
+                <label for="descripcion">Fecha límite:</label>
+                <input class="form-control" type="date" formControlName="limit" placeholder="Fecha límite" [(ngModel)]="task.limit">
+                <label for="descripcion">Usuario asignado:</label>
+                <select class="form-control" formControlName="assigned_user_id" placeholder="Fecha límite" [(ngModel)]="task.assigned_to.id">
+                    <option [value]="null"></option>
+                    <option *ngFor="let user of allUsers" [value]="user.id">{{ user.name }}</option>
+                </select>
             </div>
             <br>
-
             <br>
             <button class="btn btn-dark" type="submit" >Actualizar</button>
             <button type="reset" (click)="cancel()" class="btn btn-primary" >Cancelar</button>
@@ -25,6 +29,11 @@
         <h3>{{ task.title }}</h3>
         <p>
             {{ task.description }}
+            <br>
+            <strong>Fecha de creación:</strong> {{ task.created_at | date:'dd-MM-yyyy' }}<br>
+            <strong>Fecha límite:</strong> {{ task.limit | date:'dd-MM-yyyy' }}<br>
+            <strong>Creador:</strong> {{ task.created_by.name }}<br>
+            <strong>Usuario asignado:</strong> {{ task.assigned_to.name }}<br>
         </p>
         <div *ngIf="tags">
             <div class="d-inline badge-margin" *ngFor="let tag of tags" >

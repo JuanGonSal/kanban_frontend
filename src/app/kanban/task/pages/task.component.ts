@@ -6,6 +6,7 @@ import { TaskService } from '../task.service';
 import { TagService } from '../../tag/tag.service';
 import { ModalService } from 'src/app/_services/modal.service';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-task',
@@ -19,6 +20,7 @@ export class TaskComponent {
   @Output()  tagsUpdated: EventEmitter<Tag> = new EventEmitter<Tag>();
   
   allTags?: any=[];
+  allUsers?: any[];
   tags?: any=[];
   edit?: boolean;
   // Arreglo de clases de Bootstrap
@@ -34,7 +36,9 @@ export class TaskComponent {
 
   form = this.formBuilder.group({
     title: '',
-    description: ''
+    description: '',
+    limit: null,
+    assigned_user_id: null
   });
 
   dropdownSettings: IDropdownSettings;
@@ -42,7 +46,8 @@ export class TaskComponent {
   constructor(private taskService: TaskService, 
               private formBuilder: FormBuilder,
               protected modalService: ModalService,
-              protected tagService: TagService
+              protected tagService: TagService,
+              protected userService: UserService
             ) 
   {
     this.dropdownSettings = {
@@ -53,10 +58,16 @@ export class TaskComponent {
   }
 
   ngOnInit() {
+    console.log(this.task);
     this.tagService.getAll().subscribe((result) => {
       // Lógica adicional después de crear la tarea, si es necesario
       this.allTags = result;
     });
+
+    this.userService.getAll().subscribe((data) => {
+      this.allUsers = data;
+    });
+    
     this.edit = false;
     this.tags = this.task?.tags;
   }
@@ -94,6 +105,7 @@ export class TaskComponent {
     this.edit = true;
     this.form.value.title = this.task.title;
     this.form.value.description = this.task.description;
+    this.form.value.limit = this.task.limit;
   }
 
   cancel(){
@@ -106,14 +118,24 @@ export class TaskComponent {
       id: this.task.id,
       title: this.form.value.title,
       description: this.form.value.description,
+      limit: this.form.value.limit,
       order: this.task.order,
-      column_id: this.task.column_id
+      column_id: this.task.column_id,
+      created_at: this.task.created_at,
+      created_by: this.task.created_by,
+      assigned_to: this.task.assigned_to,
+      created_user_id: this.task.created_user_id,
+      assigned_user_id: this.form.value.assigned_user_id
     }
 
     // Lógica para actualizar la tarea
-    this.taskService.update(this.task.id,updateTask).subscribe(() => {
+    this.taskService.update(this.task.id,updateTask).subscribe((data) => {
       // Lógica adicional después de crear la tarea, si es necesario
+      console.log(data);
+      this.task.assigned_to = data.assigned_to;
     });
+/*     this.task.assigned_to.id = this.form.value.assigned_user_id
+    this.task.assigned_to.name = this.form.value.assigned_user_id */
     this.addTags();
     this.taskUpdated.emit(this.task);
   }
