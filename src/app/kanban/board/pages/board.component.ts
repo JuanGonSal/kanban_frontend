@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BoardService } from '../board.service';
 import { ColumnService } from '../../column/column.service';
 import { TaskService } from '../../task/task.service';
@@ -15,7 +15,7 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./board.component.css']
 })
 
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
   @Input() board!: Board;
   
   columns: Column[] = [];
@@ -23,19 +23,31 @@ export class BoardComponent implements OnInit {
   id!: number;
   loading = false;
   user?: User | null;
-  
+  rolAdmin?: any;
+  rolGestor?: any;
+  private _cachedIsAdmin: boolean | null = null;
+  private _cachedIsGestor: boolean | null = null;
+
+  private columnServiceSuscription?: any;
+  private taskServiceSuscription?: any;
+
   constructor(
     private boardService: BoardService, 
     private columnService: ColumnService, 
     private taskService: TaskService,
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+
+
+  }
 
   ngOnInit(): void {
     this.loading = true;
     this.authenticationService.profile().pipe(first()).subscribe(user => {
       this.user =  user;
+      this.rolAdmin = this.isAdmin();
+      this.rolGestor = this.isGestor();
       this.loading = false;
     });
     this.route.paramMap.subscribe(params => {
@@ -44,16 +56,20 @@ export class BoardComponent implements OnInit {
         this.name = board.name;
       });
   
-      this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
+      this.columnServiceSuscription = this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
         this.columns = columns;
         for (const column of columns) {
-          this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
+          this.taskServiceSuscription = this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
             column.tasks = tasks;
           });
         }
       });
     });
+  }
 
+  ngOnDestroy(): void {
+    this.columnServiceSuscription.unsubscribe();
+    this.taskServiceSuscription.unsubscribe();
   }
 
   createColumn(){
@@ -114,25 +130,23 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  get isGestor() {
-    let isGestor: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'gestor'){
-        isGestor = true;
-      };
-      return isGestor;
-    });
-    return isGestor;
+  isGestor(): boolean {
+/*     if (this._cachedIsGestor !== null) {
+      return this._cachedIsGestor;
+    } */
+    return this.user?.roles.some(rol => rol.name === 'gestor') || false;
+/*     this._cachedIsGestor = this.user?.roles.some(rol => rol.name === 'gestor') || false;
+    return this._cachedIsGestor; */
   }
 
-  get isAdmin() {
-    let isAdmin: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'admin'){
-        isAdmin = true;
-      };
-      return isAdmin;
-    });
-    return isAdmin;
+  isAdmin(): boolean {
+    
+/*     if (this._cachedIsAdmin !== null) {
+      
+      return this._cachedIsAdmin;
+    } */
+    return this.user?.roles.some(rol => rol.name === 'admin') || false;
+/*     this._cachedIsAdmin = this.user?.roles.some(rol => rol.name === 'admin') || false;
+    return this._cachedIsAdmin; */
   }
 }

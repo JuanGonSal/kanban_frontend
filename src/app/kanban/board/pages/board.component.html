@@ -10,6 +10,8 @@
         <div class="board" >
                 <app-column *ngFor="let column of columns"
                   [column]="column" 
+                  [rolGestor]="rolGestor"
+                  [rolAdmin]="rolAdmin"
                   (dragover)="onTaskDragOver($event)" 
                   (drop)="onTaskDrop($event, column)"
                   (columnDeleted)="onColumnDeleted(column)"

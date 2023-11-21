@@ -16,7 +16,7 @@
                 <label for="descripcion">Usuario asignado:</label>
                 <select class="form-control" formControlName="assigned_user_id" placeholder="Fecha límite" [(ngModel)]="task.assigned_to.id">
                     <option [value]="null"></option>
-                    <option *ngFor="let user of allUsers" [value]="user.id">{{ user.name }}</option>
+                    <option *ngFor="let user of allUsers" [value]="user?.id">{{ user?.name }}</option>
                 </select>
             </div>
             <br>
@@ -26,20 +26,20 @@
         </form>            
     </div>
     <div *ngIf="edit!=true">
+        <strong>Creación:</strong> {{ task.created_by?.name }} - {{ task.created_at | date:'dd/MM/yyyy' }}<br>
+        <hr>
         <h3>{{ task.title }}</h3>
         <p>
             {{ task.description }}
             <br>
-            <strong>Fecha de creación:</strong> {{ task.created_at | date:'dd-MM-yyyy' }}<br>
-            <strong>Fecha límite:</strong> {{ task.limit | date:'dd-MM-yyyy' }}<br>
-            <strong>Creador:</strong> {{ task.created_by.name }}<br>
-            <strong>Usuario asignado:</strong> {{ task.assigned_to.name }}<br>
+            <strong>Fecha límite:</strong> {{ task.limit | date:'dd/MM/yyyy' }}<br>
+            <strong>Usuario asignado:</strong> {{ task.assigned_to?.name }}<br>
         </p>
         <div *ngIf="tags">
             <div class="d-inline badge-margin" *ngFor="let tag of tags" >
                 <!-- <div class="d-inline" [ngClass]="tag.class"> -->
                 <div class="d-inline badge bg-info">
-                    {{ tag.name }}
+                    {{ tag?.name }}
                 </div>
             </div>
         </div>
@@ -53,5 +53,4 @@
             <i class="fa fa-trash" aria-hidden="true"> </i>
         </button>
     </div>
-
 </div>

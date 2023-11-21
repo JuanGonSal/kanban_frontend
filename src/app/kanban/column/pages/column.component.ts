@@ -1,30 +1,50 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Column } from '../column';
 import { Task } from '../../task/task';
 import { ColumnService } from '../column.service';
 import { TaskService } from '../../task/task.service';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { User } from 'src/app/_models/user';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-column',
   templateUrl: './column.component.html',
   styleUrls: ['./column.component.css']
 })
-export class ColumnComponent {
+export class ColumnComponent implements OnDestroy{
   user?: User | null;
+
   @Input() column!: Column;
+  @Input() rolGestor!: any;
+  @Input() rolAdmin!: any;
 
   @Output()  columnDeleted: EventEmitter<Column> = new EventEmitter<Column>();
+  
+  private authenticationSuscription?: any;
+  private taskSuscription?: any;
 
   constructor(
     private columnService: ColumnService,
     private taskService: TaskService,
     private authenticationService: AuthenticationService
-  ) { 
-    this.authenticationService.profile().subscribe((data) => {
+  ) { }
+
+  ngOnInit(){
+    this.authenticationSuscription = this.authenticationService.profile().subscribe((data) => {
       // Lógica adicional después de crear la tarea, si es necesario
       this.user = data;
     });
+
+    this.taskSuscription = this.taskService.getTasksByColumn(this.column.id).subscribe(() => {
+      // Lógica adicional después de crear la tarea, si es necesario
+    });
+  }
+
+  ngOnDestroy(): void {
+    // Se llama cuando el componente está a punto de ser destruido
+    // Desvincular la suscripción para evitar problemas de memoria
+    this.authenticationSuscription.unsubscribe();
+    this.taskSuscription.unsubscribe();
   }
 
   deleteColumn(){
@@ -59,37 +79,14 @@ export class ColumnComponent {
       created_at: null,
       created_by: null,
       assigned_to: null,
-      created_user_id: this.user?.id,
-      assigned_user_id: this.user?.id
+      created_user_id: null,
+      assigned_user_id: null
     };
 
     // Lógica para actualizar la tarea
     this.taskService.create(newTask).subscribe((result) => {
       // Lógica adicional después de crear la tarea, si es necesario
-        newTask.id = result.id;
-        this.column.tasks.push(newTask);
+        this.column.tasks.push(result);
     });
-  }
-
-  get isGestor() {
-    let isGestor: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'gestor'){
-        isGestor = true;
-      };
-      return isGestor;
-    });
-    return isGestor;
-  }
-
-  get isAdmin() {
-    let isAdmin: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'admin'){
-        isAdmin = true;
-      };
-      return isAdmin;
-    });
-    return isAdmin;
   }
 }
