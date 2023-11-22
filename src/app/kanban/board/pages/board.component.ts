@@ -19,14 +19,13 @@ export class BoardComponent implements OnInit, OnDestroy {
   @Input() board!: Board;
   
   columns: Column[] = [];
-  name: String = '';
+  name: string = '';
   id!: number;
   loading = false;
   user?: User | null;
   rolAdmin?: any;
   rolGestor?: any;
-  private _cachedIsAdmin: boolean | null = null;
-  private _cachedIsGestor: boolean | null = null;
+  edit = false;
 
   private columnServiceSuscription?: any;
   private taskServiceSuscription?: any;
@@ -54,6 +53,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.id = Number(params.get('id'));
       this.boardService.getById(this.id).subscribe((board: any) => {
         this.name = board.name;
+        this.board = board;
       });
   
       this.columnServiceSuscription = this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
@@ -70,6 +70,17 @@ export class BoardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.columnServiceSuscription.unsubscribe();
     this.taskServiceSuscription.unsubscribe();
+  }
+
+  editBoard(){
+    this.edit = true;
+  }
+
+  updateBoard(){
+    this.board.name = this.name;
+    this.boardService.update(this.board.id, this.board).subscribe((board: any) => {
+      this.edit = false;
+    });
   }
 
   createColumn(){
@@ -131,22 +142,10 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   isGestor(): boolean {
-/*     if (this._cachedIsGestor !== null) {
-      return this._cachedIsGestor;
-    } */
     return this.user?.roles.some(rol => rol.name === 'gestor') || false;
-/*     this._cachedIsGestor = this.user?.roles.some(rol => rol.name === 'gestor') || false;
-    return this._cachedIsGestor; */
   }
 
   isAdmin(): boolean {
-    
-/*     if (this._cachedIsAdmin !== null) {
-      
-      return this._cachedIsAdmin;
-    } */
     return this.user?.roles.some(rol => rol.name === 'admin') || false;
-/*     this._cachedIsAdmin = this.user?.roles.some(rol => rol.name === 'admin') || false;
-    return this._cachedIsAdmin; */
   }
 }
