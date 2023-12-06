@@ -29,8 +29,16 @@ export class AppComponent {
         });
     }
   }
+  
+  isGestor(): boolean {
+    return this.user?.roles.some(rol => rol.name === 'gestor') || false;
+  }
 
-  get isAdmin() {
+  isAdmin(): boolean {
+    return this.user?.roles.some(rol => rol.name === 'admin') || false;
+  }
+
+/*   get isAdmin() {
     let isAdmin: boolean = false;
     this.user?.roles.forEach(rol => {
       if ( rol.name === 'admin'){
@@ -50,7 +58,7 @@ export class AppComponent {
       return isGestor;
     });
     return isGestor;
-  }
+  } */
 
   logout() {
       this.authenticationService.logout();

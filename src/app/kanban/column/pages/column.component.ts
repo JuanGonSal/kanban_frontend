@@ -15,14 +15,14 @@ export class ColumnComponent implements OnDestroy{
   user?: User | null;
 
   @Input() column!: Column;
-  @Input() rolGestor!: any;
-  @Input() rolAdmin!: any;
+  @Input() rolGestor!: boolean;
+  @Input() rolAdmin!: boolean;
 
   @Output()  columnDeleted: EventEmitter<Column> = new EventEmitter<Column>();
   
-  private authenticationSuscription?: any;
-  private taskSuscription?: any;
-
+  private authenticationSuscription?: Subscription;
+  private taskSuscription?: Subscription;
+  
   constructor(
     private columnService: ColumnService,
     private taskService: TaskService,
@@ -43,8 +43,8 @@ export class ColumnComponent implements OnDestroy{
   ngOnDestroy(): void {
     // Se llama cuando el componente está a punto de ser destruido
     // Desvincular la suscripción para evitar problemas de memoria
-    this.authenticationSuscription.unsubscribe();
-    this.taskSuscription.unsubscribe();
+    this.authenticationSuscription?.unsubscribe();
+    this.taskSuscription?.unsubscribe();
   }
 
   deleteColumn(){
@@ -84,7 +84,7 @@ export class ColumnComponent implements OnDestroy{
     };
 
     // Lógica para actualizar la tarea
-    this.taskService.create(newTask).subscribe((result) => {
+    this.taskSuscription = this.taskService.create(newTask).subscribe((result) => {
       // Lógica adicional después de crear la tarea, si es necesario
         this.column.tasks.push(result);
     });

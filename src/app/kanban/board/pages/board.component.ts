@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/app/_models/user';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { first } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -27,8 +28,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   rolGestor?: any;
   edit = false;
 
-  private columnServiceSuscription?: any;
-  private taskServiceSuscription?: any;
+  private columnSuscription?: Subscription;
+  private taskSuscription?: Subscription;
 
   constructor(
     private boardService: BoardService, 
@@ -56,10 +57,10 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.board = board;
       });
   
-      this.columnServiceSuscription = this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
+      this.columnSuscription = this.columnService.getColumnsByBoard(this.id).subscribe(columns => {
         this.columns = columns;
         for (const column of columns) {
-          this.taskServiceSuscription = this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
+          this.taskSuscription = this.taskService.getTasksByColumn(column.id).subscribe(tasks => {
             column.tasks = tasks;
           });
         }
@@ -68,8 +69,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.columnServiceSuscription.unsubscribe();
-    this.taskServiceSuscription.unsubscribe();
+    this.columnSuscription?.unsubscribe();
+    this.taskSuscription?.unsubscribe();
   }
 
   editBoard(){

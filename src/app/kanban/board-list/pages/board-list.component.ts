@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BoardListService } from '../board-list.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Board } from '../../board/board';
@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 import { first } from 'rxjs/operators';
 import { ModalService } from 'src/app/_services/modal.service';
 import { Team } from 'src/app/_models/team';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-board-list',
@@ -15,16 +16,20 @@ import { Team } from 'src/app/_models/team';
   styleUrls: ['./board-list.component.css']
 })
 
-export class BoardListComponent implements OnInit {
-  boards!: any[];
-  selectedBoard: any;
+export class BoardListComponent implements OnInit, OnDestroy {
+  boards!: Board[];
+  selectedBoard?: Board;
   loading = false;
   user?: User | null;
-  name? :any;
-  description? :any;
-  team? :any;
-  teams? :any;
+  name? :string;
+  description? :string | null;
+  team? :Team;
+  teams? :Team[];
   modalNoValid = false;
+
+  private authenticationSuscription?: Subscription;
+  private boardListSuscription?: Subscription;
+  private boardSuscription?: Subscription;
 
   constructor(
               private boardListService: BoardListService, 
@@ -36,16 +41,24 @@ export class BoardListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.authenticationService.profile().pipe(first()).subscribe(user => {
+    this.authenticationSuscription = this.authenticationService.profile().pipe(first()).subscribe(user => {
       this.user =  user;
       this.teams = this.user?.teams;
       this.loading = false;
     });
-    this.boardListService.getAll().subscribe((board: any) => {
-        this.boards = board;
+    this.boardListSuscription = this.boardListService.getAll().subscribe((boards: any) => {
+        this.boards = boards;
     });
   }
   
+  ngOnDestroy(): void {
+    // Se llama cuando el componente está a punto de ser destruido
+    // Desvincular la suscripción para evitar problemas de memoria
+    this.authenticationSuscription?.unsubscribe();
+    this.boardListSuscription?.unsubscribe();
+    this.boardSuscription?.unsubscribe();
+  }
+
   createBoard(){
     if(!this.name || !this.team) {
       this.modalNoValid = true
@@ -54,14 +67,17 @@ export class BoardListComponent implements OnInit {
     const newBoard: Board = {
       id: 0,
       name: this.name,
-      description: this.description,
+      description: this.description ?? null,
       columns: [],
       team: this.team
     };
+
     if (newBoard) {
-      this.boards.push(newBoard);
-      this.boardService.create(newBoard).subscribe((board: any) => {});
+      this.boardSuscription = this.boardService.create(newBoard).subscribe((board: any) => {
+        this.boards.push(board);
+      });
     }
+
     this.modalService.close();
   }
 
@@ -72,31 +88,18 @@ export class BoardListComponent implements OnInit {
 
   deleteBoard(board: any, event: any){
     event.stopPropagation();
-    this.boardService.delete(board.id).subscribe((board: any) => {
-        window.location.reload();
+    this.boardSuscription = this.boardService.delete(board.id).subscribe((board: any) => {
+        this.boardListService.getAll().subscribe((boards: any) => {
+          this.boards = boards;
+        });
     });
-
+  }
+  
+  isGestor(): boolean {
+    return this.user?.roles.some(rol => rol.name === 'gestor') || false;
   }
 
-  get isGestor() {
-    let isGestor: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'gestor'){
-        isGestor = true;
-      };
-      return isGestor;
-    });
-    return isGestor;
-  }
-
-  get isAdmin() {
-    let isAdmin: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'admin'){
-        isAdmin = true;
-      };
-      return isAdmin;
-    });
-    return isAdmin;
+  isAdmin(): boolean {
+    return this.user?.roles.some(rol => rol.name === 'admin') || false;
   }
 }
