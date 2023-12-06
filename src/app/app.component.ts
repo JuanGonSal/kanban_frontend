@@ -30,35 +30,13 @@ export class AppComponent {
     }
   }
   
-  isGestor(): boolean {
+  get isGestor(): boolean {
     return this.user?.roles.some(rol => rol.name === 'gestor') || false;
   }
 
-  isAdmin(): boolean {
+  get isAdmin(): boolean {
     return this.user?.roles.some(rol => rol.name === 'admin') || false;
   }
-
-/*   get isAdmin() {
-    let isAdmin: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'admin'){
-        isAdmin = true;
-      };
-      return isAdmin;
-    });
-    return isAdmin;
-  }
-
-  get isGestor() {
-    let isGestor: boolean = false;
-    this.user?.roles.forEach(rol => {
-      if ( rol.name === 'gestor' || rol.name === 'admin'){
-        isGestor = true;
-      };
-      return isGestor;
-    });
-    return isGestor;
-  } */
 
   logout() {
       this.authenticationService.logout();

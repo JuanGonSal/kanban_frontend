@@ -14,7 +14,7 @@
       <div *ngIf="isGestor || isAdmin">
 
         <button *ngIf='!edit' class="btn btn-dark btn-sm" (click)="editBoard()"><i class="fa fa-edit"></i></button>
-        <button class="btn btn-dark btn-sm" (click)="createColumn()"><i class="fa fa-plus" > Crear columna</i></button>
+        <button *ngIf="rolGestor || rolAdmin" class="btn btn-dark btn-sm" (click)="createColumn()"><i class="fa fa-plus" > Crear columna</i></button>
       </div>
   </div>
   <div class="card-body">

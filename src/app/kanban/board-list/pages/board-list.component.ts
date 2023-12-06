@@ -95,11 +95,11 @@ export class BoardListComponent implements OnInit, OnDestroy {
     });
   }
   
-  isGestor(): boolean {
+  get isGestor(): boolean {
     return this.user?.roles.some(rol => rol.name === 'gestor') || false;
   }
 
-  isAdmin(): boolean {
+  get isAdmin(): boolean {
     return this.user?.roles.some(rol => rol.name === 'admin') || false;
   }
 }
